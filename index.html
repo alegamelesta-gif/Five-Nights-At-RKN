@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIVE NIGHTS AT RKN | DARKOS 1.7.2</title>
+    
+    <style>
+        /* ================================================================
+           ОБЩИЕ СТИЛИ: Ретро-монитор DARKOS 1.7.2
+           ================================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @font-face {
+            font-family: 'PixelFont';
+            src: local('Courier New'), local('Lucida Console'), local('Consolas');
+        }
+        
+        body {
+            background: #0a0a0a;
+            font-family: 'Courier New', 'Lucida Console', monospace;
+            color: #00ff41;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        /* Эффект старого ЭЛТ-монитора */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15) 0px,
+                rgba(0, 0, 0, 0.15) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        /* Слабое свечение монитора */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(0, 255, 65, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 9998;
+        }
+        
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            padding: 20px;
+            border: 2px solid #00ff41;
+            background: #0d0d0d;
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.1), inset 0 0 40px rgba(0, 255, 65, 0.03);
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* ================================================================
+           ШАПКА: MAIN_GATEWAY.EXE
+           ================================================================ */
+        .header {
+            border-bottom: 2px solid #00ff41;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .system-title {
+            font-size: 14px;
+            color: #0088ff;
+            letter-spacing: 2px;
+            background: rgba(0, 136, 255, 0.08);
+            padding: 4px 12px;
+            border: 1px solid #0088ff;
+        }
+        
+        .system-status {
+            font-size: 12px;
+            color: #00ff41;
+            animation: blink 2s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .main-title {
+            font-size: clamp(28px, 6vw, 56px);
+            font-weight: bold;
+            color: #00ff41;
+            text-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+            letter-spacing: 4px;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .main-title .rkn {
+            color: #ff0040;
+            text-shadow: 0 0 20px rgba(255, 0, 64, 0.3);
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #0088ff;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle .cursor {
+            animation: blink 1s infinite;
+        }
+
+        /* ================================================================
+           ПЛАШКА РАННЕГО ДОСТУПА (EARLY ACCESS)
+           ================================================================ */
+        .early-access-alert {
+            color: #ffff33;
+            font-weight: bold;
+            border: 1px dashed #ffff33;
+            padding: 10px 14px;
+            margin-top: 15px;
+            font-size: 13px;
+            background: rgba(255, 255, 51, 0.05);
+            text-align: left;
+            letter-spacing: 0.5px;
+            line-height: 1.6;
+        }
+        
+        .early-access-alert .cursor-blink {
+            animation: blink 1s infinite;
+        }
+        
+        /* ================================================================
+           КНОПКИ В СТИЛЕ UGUI
+           ================================================================ */
+        .buttons-grid {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 15px 0 5px 0;
+        }
+        
+        .btn-retro {
+            background: transparent;
+            border: 2px solid #00ff41;
+            color: #00ff41;
+            padding: 10px 24px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            position: relative;
+        }
+        
+        .btn-retro:hover {
+            background: #00ff41;
+            color: #0a0a0a;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
+        }
+        
+        .btn-retro:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-retro.download {
+            border-color: #ff8800;
+            color: #ff8800;
+        }
+        
+        .btn-retro.download:hover {
+            background: #ff8800;
+            color: #0a0a0a;
+            box-shadow: 0 0 30px rgba(255, 136, 0, 0.3);
+        }
+        
+        .btn-retro.telegram {
+            border-color: #0088ff;
+            color: #0088ff;
+        }
+        
+        .btn-retro.telegram:hover {
+            background: #0088ff;
+            color: #0a0a0a;
+            box-shadow: 0 0 30px rgba(0, 136, 255, 0.3);
+        }
+        
+        .btn-retro.youtube {
+            border-color: #ff0040;
+            color: #ff0040;
+        }
+        
+        .btn-retro.youtube:hover {
+            background: #ff0040;
+            color: #0a0a0a;
+            box-shadow: 0 0 30px rgba(255, 0, 64, 0.3);
+        }
+        
+        .btn-retro.donate {
+            border-color: #ff8800;
+            color: #ff8800;
+            background: rgba(255, 136, 0, 0.05);
+        }
+        
+        .btn-retro.donate:hover {
+            background: #ff8800;
+            color: #0a0a0a;
+            box-shadow: 0 0 30px rgba(255, 136, 0, 0.3);
+        }
+        
+        .btn-retro.donate .heart {
+            color: #ff0040;
+        }
+        
+        .btn-retro.donate:hover .heart {
+            color: #0a0a0a;
+        }
+        
+        /* ================================================================
+           МОДАЛЬНОЕ ОКНО: SYS_DOWNLOAD_MANAGER.EXE
+           ================================================================ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(4px);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-window {
+            background: #0d0d0d;
+            border: 2px solid #00ff41;
+            box-shadow: 0 0 60px rgba(0, 255, 65, 0.15), inset 0 0 60px rgba(0, 255, 65, 0.03);
+            width: 90%;
+            max-width: 650px;
+            max-height: 85vh;
+            animation: slideUp 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: rgba(0, 136, 255, 0.08);
+            border-bottom: 2px solid #0088ff;
+            flex-shrink: 0;
+        }
+        
+        .modal-title {
+            font-size: 14px;
+            color: #0088ff;
+            letter-spacing: 2px;
+        }
+        
+        .modal-title .icon {
+            color: #ff8800;
+        }
+        
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: #ff0040;
+            font-family: 'Courier New', monospace;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0 8px;
+            transition: all 0.2s;
+            line-height: 1;
+        }
+        
+        .modal-close:hover {
+            color: #ff0040;
+            text-shadow: 0 0 20px rgba(255, 0, 64, 0.5);
+            transform: scale(1.1);
+        }
+        
+        .modal-body {
+            padding: 20px 20px 16px 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        /* Стили скроллбара для модального окна */
+        .modal-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .modal-body::-webkit-scrollbar-track {
+            background: #0a0a0a;
+            border-left: 1px solid rgba(0, 255, 65, 0.1);
+        }
+        
+        .modal-body::-webkit-scrollbar-thumb {
+            background: #00ff41;
+            border-radius: 0;
+        }
+        
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: #0088ff;
+        }
+        
+        .modal-status {
+            font-size: 12px;
+            color: #0088ff;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(0, 136, 255, 0.2);
+            padding-bottom: 10px;
+            margin-bottom: 16px;
+        }
+        
+        .modal-status .cursor {
+            animation: blink 1s infinite;
+        }
+        
+        /* Список версий */
+        .version-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .version-item {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px 16px;
+            padding: 16px 18px;
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            background: rgba(0, 255, 65, 0.03);
+            transition: all 0.2s;
+        }
+        
+        .version-item:hover {
+            border-color: rgba(0, 255, 65, 0.4);
+            background: rgba(0, 255, 65, 0.06);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.05);
+        }
+        
+        .version-badge {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ff8800;
+            min-width: 100px;
+            letter-spacing: 1px;
+        }
+        
+        .version-badge .tag {
+            font-size: 11px;
+            color: #00ff41;
+            background: rgba(0, 255, 65, 0.12);
+            padding: 2px 10px;
+            border: 1px solid #00ff41;
+            margin-left: 8px;
+            font-weight: normal;
+        }
+        
+        .version-desc {
+            flex: 1;
+            min-width: 180px;
+            font-size: 13px;
+            color: #888;
+            letter-spacing: 0.5px;
+            line-height: 1.5;
+        }
+        
+        .version-desc .highlight {
+            color: #00ff41;
+        }
+        
+        .btn-download-version {
+            background: transparent;
+            border: 1px solid #ff8800;
+            color: #ff8800;
+            padding: 8px 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            letter-spacing: 1px;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+        
+        .btn-download-version:hover {
+            background: #ff8800;
+            color: #0a0a0a;
+            box-shadow: 0 0 30px rgba(255, 136, 0, 0.3);
+        }
+        
+        .btn-download-version:active {
+            transform: scale(0.95);
+        }
+        
+        .modal-footer {
+            padding: 12px 16px;
+            border-top: 1px solid rgba(0, 255, 65, 0.08);
+            font-size: 11px;
+            color: #444;
+            text-align: center;
+            flex-shrink: 0;
+            letter-spacing: 1px;
+        }
+        
+        .modal-footer .highlight {
+            color: #ff8800;
+        }
+        
+        /* ================================================================
+           ЛИДЕРБОРД: Окно SYSRECOVERY.EXE
+           ================================================================ */
+        .leaderboard-section {
+            margin: 25px 0;
+            border: 2px solid #0088ff;
+            background: rgba(0, 136, 255, 0.03);
+            padding: 15px;
+        }
+        
+        .lb-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #0088ff;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .lb-title {
+            font-size: 18px;
+            color: #0088ff;
+            letter-spacing: 3px;
+        }
+        
+        .lb-title .icon {
+            color: #ff8800;
+        }
+        
+        .lb-update {
+            font-size: 11px;
+            color: #0066aa;
+        }
+        
+        .lb-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .lb-table thead th {
+            text-align: left;
+            padding: 8px 12px;
+            border-bottom: 2px solid #00ff41;
+            color: #00ff41;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .lb-table tbody td {
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+            font-size: 14px;
+        }
+        
+        .lb-table tbody tr:hover {
+            background: rgba(0, 255, 65, 0.04);
+        }
+        
+        .lb-table .rank {
+            width: 50px;
+            text-align: center;
+            color: #0088ff;
+        }
+        
+        .lb-table .rank.gold {
+            color: #ff8800;
+            font-weight: bold;
+        }
+        
+        .lb-table .rank .crown {
+            font-size: 18px;
+        }
+        
+        .lb-table .username {
+            color: #00ff41;
+        }
+        
+        .lb-table .score {
+            text-align: right;
+            color: #00ff41;
+            font-weight: bold;
+        }
+        
+        /* Строка загрузки */
+        .loading-row td {
+            text-align: center;
+            padding: 30px 0;
+            color: #ff8800;
+            font-size: 16px;
+            animation: blink 0.8s infinite;
+        }
+        
+        .lb-empty td {
+            text-align: center;
+            padding: 30px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* ================================================================
+           ПОДВАЛ: Юридический дисклеймер (без Copyright)
+           ================================================================ */
+        .footer {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0, 255, 65, 0.2);
+        }
+        
+        .footer-text {
+            font-size: 11px;
+            color: #444;
+            text-align: center;
+            line-height: 1.8;
+            letter-spacing: 1px;
+        }
+        
+        .footer-text .highlight {
+            color: #666;
+        }
+        
+        .footer-text .rkn-red {
+            color: #ff0040;
+        }
+        
+        /* ================================================================
+           АДАПТИВНОСТЬ
+           ================================================================ */
+        @media (max-width: 700px) {
+            .container {
+                padding: 12px;
+            }
+            
+            .header-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .buttons-grid {
+                gap: 10px;
+            }
+            
+            .btn-retro {
+                padding: 8px 16px;
+                font-size: 12px;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .lb-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .lb-table thead th,
+            .lb-table tbody td {
+                padding: 6px 8px;
+                font-size: 12px;
+            }
+            
+            .lb-table .rank {
+                width: 35px;
+            }
+            
+            .modal-window {
+                width: 95%;
+                max-height: 90vh;
+            }
+            
+            .version-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                padding: 14px 16px;
+            }
+            
+            .version-badge {
+                width: 100%;
+                font-size: 14px;
+            }
+            
+            .btn-download-version {
+                width: 100%;
+                text-align: center;
+                padding: 10px;
+            }
+            
+            .early-access-alert {
+                font-size: 11px;
+                padding: 8px 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 22px;
+            }
+            
+            .lb-table .rank .crown {
+                font-size: 14px;
+            }
+            
+            .modal-title {
+                font-size: 12px;
+            }
+            
+            .modal-body {
+                padding: 12px;
+            }
+            
+            .version-desc {
+                font-size: 12px;
+                min-width: unset;
+            }
+        }
+        
+        /* ================================================================
+           БЛОКИРОВКА ПРОКРУТКИ ФОНА ПРИ ОТКРЫТОМ МОДАЛЬНОМ ОКНЕ
+           ================================================================ */
+        body.no-scroll {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        
+        <!-- ============================================================
+        ШАПКА: MAIN_GATEWAY.EXE
+        ============================================================ -->
+        <div class="header">
+            <div class="header-top">
+                <div class="system-title">■ MAIN_GATEWAY.EXE — DARKOS 1.7.2</div>
+                <div class="system-status">● СИСТЕМА АКТИВНА | ОЖИДАНИЕ КОМАНД...</div>
+            </div>
+            
+            <div class="main-title">
+                FIVE NIGHTS AT <span class="rkn">RKN</span>
+            </div>
+            
+            <div class="subtitle">
+                <span class="cursor">❯</span> CUSTOM NIGHT EDITION <span class="cursor">_</span>
+            </div>
+            
+            <!-- ПЛАШКА РАННЕГО ДОСТУПА -->
+            <div class="early-access-alert">
+                <span class="cursor-blink">❯</span> СТАТУС РАЗРАБОТКИ: РАННИЙ ДОСТУП (EARLY ACCESS / BUILD v1.0_GOLD). Игра находится в активной стадии полировки. Возможно наличие скрытых uGUI-багов, ошибок синтаксиса и рассинхронов. Сообщайте обо всех аномалиях в Telegram разработчика! <span class="cursor-blink">_</span>
+            </div>
+            
+            <!-- КНОПКИ -->
+            <div class="buttons-grid">
+                <button class="btn-retro download" id="btnDownload">⬇ СКАЧАТЬ ИГРУ (.EXE)</button>
+                <a href="#" class="btn-retro telegram" id="btnTelegram">✈ TELEGRAM РАЗРАБОТЧИКА</a>
+                <a href="#" class="btn-retro youtube" id="btnYoutube">▶ YOUTUBE КАНАЛ</a>
+                <a href="#" class="btn-retro donate" id="btnDonate">♥ ПОДДЕРЖАТЬ АВТОРА</a>
+            </div>
+        </div>
+        
+        <!-- ============================================================
+        ЛИДЕРБОРД: Окно SYSRECOVERY.EXE
+        ============================================================ -->
+        <div class="leaderboard-section">
+            <div class="lb-header">
+                <div class="lb-title">
+                    <span class="icon">⚡</span> ТОП-10 ХАКЕРОВ МИРА
+                </div>
+                <div class="lb-update" id="updateTime">● ОБНОВЛЕНО: ...</div>
+            </div>
+            
+            <table class="lb-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>ПОЛЬЗОВАТЕЛЬ</th>
+                        <th style="text-align:right;">ОЧКИ</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboardBody">
+                    <!-- Строка загрузки -->
+                    <tr class="loading-row">
+                        <td colspan="3">⟳ ПОДКЛЮЧЕНИЕ К СЕРВЕРУ...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- ============================================================
+        ПОДВАЛ: Юридический дисклеймер (БЕЗ КОПИРАЙТА)
+        ============================================================ -->
+        <div class="footer">
+            <div class="footer-text">
+                <span class="highlight">
+                    ДАННАЯ ИГРА ЯВЛЯЕТСЯ ВЫМЫШЛЕННОЙ САТИРОЙ. ВСЕ ПЕРСОНАЖИ, СОБЫТИЯ И ОРГАНИЗАЦИИ 
+                    ЯВЛЯЮТСЯ ПЛОДОМ ХУДОЖЕСТВЕННОГО ВЫМЫСЛА АВТОРА. <span class="rkn-red">ЛЮБЫЕ СОВПАДЕНИЯ С РЕАЛЬНЫМИ ЛИЦАМИ 
+                    ИЛИ ОРГАНИЗАЦИЯМИ СЛУЧАЙНЫ.</span> ПРОДУКТ СОЗДАН ИСКЛЮЧИТЕЛЬНО В РАЗВЛЕКАТЕЛЬНЫХ ЦЕЛЯХ 
+                    И НЕ ПРЕСЛЕДУЕТ ПОЛИТИЧЕСКИХ ИЛИ КОММЕРЧЕСКИХ ЦЕЛЕЙ.
+                </span>
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- ================================================================
+    МОДАЛЬНОЕ ОКНО: SYS_DOWNLOAD_MANAGER.EXE
+    ================================================================ -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-window">
+            <!-- Шапка окна -->
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span class="icon">⬇</span> SYS_DOWNLOAD_MANAGER.EXE
+                </div>
+                <button class="modal-close" id="modalClose">✕</button>
+            </div>
+            
+            <!-- Тело окна -->
+            <div class="modal-body">
+                <div class="modal-status">
+                    <span class="cursor">❯</span> ДОСТУПНЫЕ ВЕРСИИ ДЛЯ СКАЧИВАНИЯ <span class="cursor">_</span>
+                </div>
+                
+                <div class="version-list">
+                    <!-- Версия: Alpha 0.1 (Установщик) -->
+                    <div class="version-item">
+                        <div class="version-badge">
+                            Alpha 0.1 <span class="tag">Установщик</span>
+                        </div>
+                        <div class="version-desc">
+                            Первая альфа-версия (.exe). Режим <span class="highlight">Custom Night</span>, облачный лидерборд, <span class="highlight">термо-контроль</span> процессора и базовые механики
+                        </div>
+                        <a href="#" class="btn-download-version" id="btnDownloadSetup" download>⬇ СКАЧАТЬ SETUP.EXE</a>
+                    </div>
+                    
+                    <!-- Версия: Alpha 0.1 (Портативная) -->
+                    <div class="version-item">
+                        <div class="version-badge">
+                            Alpha 0.1 <span class="tag">Portable</span>
+                        </div>
+                        <div class="version-desc">
+                            Портативная версия (.zip) альфа-билда. Не требует установки, распакуйте и играйте. <span class="highlight">Все механики</span> в комплекте
+                        </div>
+                        <a href="#" class="btn-download-version" id="btnDownloadZip" download>⬇ СКАЧАТЬ PORTABLE.ZIP</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Подвал окна -->
+            <div class="modal-footer">
+                [SYSTEM] <span class="highlight">Alpha 0.1</span> — ВЫБЕРИТЕ СПОСОБ УСТАНОВКИ
+            </div>
+        </div>
+    </div>
+    
+    <!-- ================================================================
+    JAVASCRIPT: ЛОГИКА ЗАГРУЗКИ ЛИДЕРБОРДА, МОДАЛЬНОГО ОКНА И ССЫЛОК
+    ================================================================ -->
+    <script>
+        // ================================================================
+        // КОНСТАНТЫ: URL ДЛЯ СКАЧИВАНИЯ, СОЦСЕТЕЙ И ПОДДЕРЖКИ
+        // ================================================================
+        const setupDownloadURL = "https://drive.google.com/uc?export=download&id=1LFUcCHK81OCd98vZrVMeLQcbiyA0N7LW";
+        const zipDownloadURL = "https://drive.google.com/uc?export=download&id=1gM1-C1o3l9krFu4G2F951eE4LrQKgLau";
+        const telegramURL = "https://t.me/MRTYPUMPKIN";
+        const youtubeURL = "https://www.youtube.com/@mrpumpkin_puzo";
+        const donateURL = "https://www.donationalerts.com/r/mrpumpkin_rkn";
+        
+        // ================================================================
+        // КОНСТАНТА: URL ВАШЕГО GOOGLE APPS SCRIPT
+        // ================================================================
+        const webServerURL = "https://script.google.com/macros/s/AKfycbwaANrCNTeXSbVtD9ZKeIFhh54eQPfz-acdEohhEKIUYX7QutRnzmsjHOfkk6QfxsynrQ/exec";
+        
+        // ================================================================
+        // ПОДСТАНОВКА ССЫЛОК В КНОПКИ
+        // ================================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Кнопка Telegram
+            const btnTelegram = document.getElementById('btnTelegram');
+            if (btnTelegram) {
+                btnTelegram.href = telegramURL;
+                btnTelegram.target = '_blank';
+                btnTelegram.rel = 'noopener noreferrer';
+            }
+            
+            // Кнопка YouTube
+            const btnYoutube = document.getElementById('btnYoutube');
+            if (btnYoutube) {
+                btnYoutube.href = youtubeURL;
+                btnYoutube.target = '_blank';
+                btnYoutube.rel = 'noopener noreferrer';
+            }
+            
+            // Кнопка "Поддержать автора"
+            const btnDonate = document.getElementById('btnDonate');
+            if (btnDonate) {
+                btnDonate.href = donateURL;
+                btnDonate.target = '_blank';
+                btnDonate.rel = 'noopener noreferrer';
+            }
+            
+            // Кнопка скачивания установщика
+            const btnSetup = document.getElementById('btnDownloadSetup');
+            if (btnSetup) {
+                btnSetup.href = setupDownloadURL;
+                btnSetup.target = '_blank';
+                btnSetup.rel = 'noopener noreferrer';
+                btnSetup.download = 'FNARKN_Alpha0.1_Setup.exe';
+            }
+            
+            // Кнопка скачивания портативной версии
+            const btnZip = document.getElementById('btnDownloadZip');
+            if (btnZip) {
+                btnZip.href = zipDownloadURL;
+                btnZip.target = '_blank';
+                btnZip.rel = 'noopener noreferrer';
+                btnZip.download = 'FNARKN_Alpha0.1_Portable.zip';
+            }
+        });
+        
+        // ================================================================
+        // МОДАЛЬНОЕ ОКНО: УПРАВЛЕНИЕ
+        // ================================================================
+        const modalOverlay = document.getElementById('modalOverlay');
+        const btnDownload = document.getElementById('btnDownload');
+        const modalClose = document.getElementById('modalClose');
+        
+        // Открыть модальное окно
+        function openModal() {
+            modalOverlay.classList.add('active');
+            document.body.classList.add('no-scroll');
+        }
+        
+        // Закрыть модальное окно
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+        }
+        
+        // Клик по кнопке "СКАЧАТЬ ИГРУ (.EXE)"
+        if (btnDownload) {
+            btnDownload.addEventListener('click', function(e) {
+                e.preventDefault();
+                openModal();
+            });
+        }
+        
+        // Клик по крестику [X]
+        if (modalClose) {
+            modalClose.addEventListener('click', function(e) {
+                e.preventDefault();
+                closeModal();
+            });
+        }
+        
+        // Клик по затемненному фону (overlay)
+        if (modalOverlay) {
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+        }
+        
+        // Закрытие по клавише ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                closeModal();
+            }
+        });
+        
+        // Предотвращаем всплытие кликов внутри окна
+        const modalWindow = document.querySelector('.modal-window');
+        if (modalWindow) {
+            modalWindow.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+        
+        // ================================================================
+        // ЗАГРУЗКА ДАННЫХ ЛИДЕРБОРДА
+        // ================================================================
+        async function loadLeaderboard() {
+            const tbody = document.getElementById('leaderboardBody');
+            
+            try {
+                tbody.innerHTML = `
+                    <tr class="loading-row">
+                        <td colspan="3">⟳ ПОДКЛЮЧЕНИЕ К СЕРВЕРУ...</td>
+                    </tr>
+                `;
+                
+                const response = await fetch(`${webServerURL}?action=getTop`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const players = await response.json();
+                
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString('ru-RU', { hour12: false });
+                document.getElementById('updateTime').textContent = `● ОБНОВЛЕНО: ${timeStr}`;
+                
+                if (!players || players.length === 0) {
+                    tbody.innerHTML = `
+                        <tr class="lb-empty">
+                            <td colspan="3">⛔ НЕТ ДАННЫХ — ПЕРВЫЙ ХАКЕР ЕЩЁ НЕ ЗАРЕГИСТРИРОВАН</td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                let html = '';
+                players.forEach((player, index) => {
+                    const rank = index + 1;
+                    const isFirst = rank === 1;
+                    const rankDisplay = isFirst ? `<span class="crown">👑</span> ${rank}` : rank;
+                    const rankClass = isFirst ? 'rank gold' : 'rank';
+                    
+                    html += `
+                        <tr>
+                            <td class="${rankClass}">${rankDisplay}</td>
+                            <td class="username">${escapeHtml(player.username)}</td>
+                            <td class="score">${player.score.toLocaleString()}</td>
+                        </tr>
+                    `;
+                });
+                
+                tbody.innerHTML = html;
+                
+            } catch (error) {
+                console.error('Ошибка загрузки лидерборда:', error);
+                tbody.innerHTML = `
+                    <tr class="lb-empty">
+                        <td colspan="3">⚠ ОШИБКА ПОДКЛЮЧЕНИЯ К СЕРВЕРУ — ПРОВЕРЬТЕ ИНТЕРНЕТ</td>
+                    </tr>
+                `;
+            }
+        }
+        
+        // ================================================================
+        // ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ: Экранирование HTML
+        // ================================================================
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // ================================================================
+        // АВТОМАТИЧЕСКАЯ ЗАГРУЗКА ПРИ ОТКРЫТИИ СТРАНИЦЫ
+        // ================================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadLeaderboard();
+            setInterval(loadLeaderboard, 30000);
+        });
+        
+        // ================================================================
+        // КОНСОЛЬНЫЙ ПРИВЕТСТВИЕ В СТИЛЕ DARKOS
+        // ================================================================
+        console.log('%c╔════════════════════════════════════════════════════╗', 'color: #00ff41');
+        console.log('%c║   FIVE NIGHTS AT RKN — DARKOS 1.7.2              ║', 'color: #00ff41');
+        console.log('%c║   СИСТЕМА ЗАГРУЖЕНА. ОЖИДАНИЕ КОМАНД...         ║', 'color: #00ff41');
+        console.log('%c╚════════════════════════════════════════════════════╝', 'color: #00ff41');
+        console.log(`%c[INFO] Лидерборд загружается с: ${webServerURL}`, 'color: #0088ff');
+        console.log(`%c[INFO] Telegram: ${telegramURL}`, 'color: #0088ff');
+        console.log(`%c[INFO] YouTube: ${youtubeURL}`, 'color: #0088ff');
+        console.log(`%c[INFO] Donate: ${donateURL}`, 'color: #ff8800');
+        console.log(`%c[INFO] Setup: ${setupDownloadURL}`, 'color: #ff8800');
+        console.log(`%c[INFO] Portable: ${zipDownloadURL}`, 'color: #ff8800');
+    </script>
+    
+</body>
+</html>
