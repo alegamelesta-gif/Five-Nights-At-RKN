@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta name="google-site-verification" content="hAr46IKUuu38ZRESsidr-j-BKbJzRoqawFj2VNz5A9c" />
-    <meta name="yandex-verification" content="5ef491c4024e64ee" />
-    <meta name="description" content="Скачать официальный инди-хоррор Five Nights at RKN (Пять ночей в РКН) бесплатно. Ранний доступ v1.0_GOLD, ПК-установщик и Portable ZIP.">
-    <meta name="keywords" content="пять ночей с ркн скачать, пять ночей в ркн игра, five nights at rkn скачать бесплатно, фнаф ркн пк установщик, скачать фнаф роскомнадзор zip, лидерборд mrpumpkin">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FIVE NIGHTS AT RKN | DARKOS 1.7.2</title>
@@ -456,18 +451,42 @@
             transform: scale(0.95);
         }
         
-        .modal-footer {
-            padding: 12px 16px;
-            border-top: 1px solid rgba(0, 255, 65, 0.08);
-            font-size: 11px;
-            color: #444;
+        /* ================================================================
+           СТИЛИ ДЛЯ ANDROID-КНОПКИ (НЕОНОВЫЙ САЛАТОВЫЙ)
+           ================================================================ */
+        .btn-android {
+            background: transparent;
+            border: 2px solid #00ff66;
+            color: #00ff66;
+            padding: 10px 24px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            position: relative;
             text-align: center;
-            flex-shrink: 0;
-            letter-spacing: 1px;
+            width: 100%;
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.15);
         }
         
-        .modal-footer .highlight {
-            color: #ff8800;
+        .btn-android:hover {
+            background: #00ff66;
+            color: #0a0a0a;
+            box-shadow: 0 0 40px rgba(0, 255, 102, 0.5), 0 0 80px rgba(0, 255, 102, 0.2);
+            transform: scale(1.02);
+        }
+        
+        .btn-android:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-android .android-icon {
+            margin-right: 8px;
         }
         
         /* ================================================================
@@ -653,7 +672,8 @@
                 font-size: 14px;
             }
             
-            .btn-download-version {
+            .btn-download-version,
+            .btn-android {
                 width: 100%;
                 text-align: center;
                 padding: 10px;
@@ -685,6 +705,11 @@
             .version-desc {
                 font-size: 12px;
                 min-width: unset;
+            }
+            
+            .btn-android {
+                font-size: 12px;
+                padding: 8px 12px;
             }
         }
         
@@ -719,7 +744,7 @@
             
             <!-- ПЛАШКА РАННЕГО ДОСТУПА -->
             <div class="early-access-alert">
-                <span class="cursor-blink">❯</span> СТАТУС РАЗРАБОТКИ: РАННИЙ ДОСТУП (EARLY ACCESS / BUILD v1.0_GOLD). Игра находится в активной стадии полировки. Возможно наличие скрытых uGUI-багов, ошибок синтаксиса и рассинхронов. Сообщайте обо всех аномалиях в Telegram разработчика! <span class="cursor-blink">_</span>
+                <span class="cursor-blink">❯</span> СТАТУС РАЗРАБОТКИ: РАННИЙ ДОСТУП (EARLY ACCESS / BUILD v0.1_ALPHA). Игра находится в активной стадии полировки. Возможно наличие скрытых uGUI-багов, ошибок синтаксиса и рассинхронов. Сообщайте обо всех аномалиях в Telegram разработчика! <span class="cursor-blink">_</span>
             </div>
             
             <!-- КНОПКИ -->
@@ -795,33 +820,46 @@
                 </div>
                 
                 <div class="version-list">
-                    <!-- Версия: Alpha 0.1 (Установщик) -->
+                    <!-- Версия: ПК Установщик -->
                     <div class="version-item">
                         <div class="version-badge">
-                            Alpha 0.1 <span class="tag">Установщик</span>
+                            alpha 0.1.1 <span class="tag">ПК</span>
                         </div>
                         <div class="version-desc">
-                            Первая альфа-версия (.exe). Режим <span class="highlight">Custom Night</span>, облачный лидерборд, <span class="highlight">термо-контроль</span> процессора и базовые механики
+                            Установщик для Windows (.exe). Режим <span class="highlight">Custom Night</span>, облачный лидерборд, <span class="highlight">термо-контроль</span> процессора
                         </div>
-                        <a href="#" class="btn-download-version" id="btnDownloadSetup" download>⬇ СКАЧАТЬ SETUP.EXE</a>
+                        <a href="#" class="btn-download-version" id="btnDownloadSetup" download>⬇ УСТАНОВЩИК ПК (alpha 0.1.1 .EXE)</a>
                     </div>
                     
-                    <!-- Версия: Alpha 0.1 (Портативная) -->
+                    <!-- Версия: ПК Портативная -->
                     <div class="version-item">
                         <div class="version-badge">
-                            Alpha 0.1 <span class="tag">Portable</span>
+                            alpha 0.1.1 <span class="tag">ПК</span>
                         </div>
                         <div class="version-desc">
-                            Портативная версия (.zip) альфа-билда. Не требует установки, распакуйте и играйте. <span class="highlight">Все механики</span> в комплекте
+                            Портативная версия (.zip). Не требует установки, распакуйте и играйте. <span class="highlight">Все механики</span> в комплекте
                         </div>
-                        <a href="#" class="btn-download-version" id="btnDownloadZip" download>⬇ СКАЧАТЬ PORTABLE.ZIP</a>
+                        <a href="#" class="btn-download-version" id="btnDownloadZip" download>⬇ ПОРТАТИВНЫЙ ПК (alpha 0.1.1 .ZIP)</a>
+                    </div>
+                    
+                    <!-- Версия: Android (НОВАЯ КНОПКА) -->
+                    <div class="version-item" style="border-color: rgba(0, 255, 102, 0.3); background: rgba(0, 255, 102, 0.05);">
+                        <div class="version-badge" style="color: #00ff66;">
+                            alpha 0.1.1 <span class="tag" style="border-color: #00ff66; color: #00ff66;">ANDROID</span>
+                        </div>
+                        <div class="version-desc">
+                            Мобильная версия для Android (.apk). Установите на смартфон и играйте <span class="highlight">в любом месте</span>. Требуется Android 7+
+                        </div>
+                        <a href="#" class="btn-android" id="btnDownloadAndroid" download>
+                            <span class="android-icon">📱</span> МОБИЛЬНАЯ ВЕРСИЯ (alpha 0.1.1 .APK)
+                        </a>
                     </div>
                 </div>
             </div>
             
             <!-- Подвал окна -->
             <div class="modal-footer">
-                [SYSTEM] <span class="highlight">Alpha 0.1</span> — ВЫБЕРИТЕ СПОСОБ УСТАНОВКИ
+                [SYSTEM] <span class="highlight">alpha 0.1.1</span> — ВЫБЕРИТЕ ПЛАТФОРМУ ДЛЯ ЗАГРУЗКИ
             </div>
         </div>
     </div>
@@ -835,6 +873,7 @@
         // ================================================================
         const setupDownloadURL = "https://drive.google.com/uc?export=download&id=1LFUcCHK81OCd98vZrVMeLQcbiyA0N7LW";
         const zipDownloadURL = "https://drive.google.com/uc?export=download&id=1gM1-C1o3l9krFu4G2F951eE4LrQKgLau";
+        const androidDownloadURL = "https://drive.google.com/uc?export=download&id=ВАШ_ID_ФАЙЛА_APK"; // СЮДА_ВСТАВЬТЕ_ССЫЛКУ_НА_APK
         const telegramURL = "https://t.me/MRTYPUMPKIN";
         const youtubeURL = "https://www.youtube.com/@mrpumpkin_puzo";
         const donateURL = "https://www.donationalerts.com/r/mrpumpkin_rkn";
@@ -872,22 +911,33 @@
                 btnDonate.rel = 'noopener noreferrer';
             }
             
-            // Кнопка скачивания установщика
+            // Кнопка скачивания установщика (ПК)
             const btnSetup = document.getElementById('btnDownloadSetup');
             if (btnSetup) {
                 btnSetup.href = setupDownloadURL;
                 btnSetup.target = '_blank';
                 btnSetup.rel = 'noopener noreferrer';
-                btnSetup.download = 'FNARKN_Alpha0.1_Setup.exe';
+                btnSetup.download = 'FNARKN_alpha_0.1.1_Setup.exe';
             }
             
-            // Кнопка скачивания портативной версии
+            // Кнопка скачивания портативной версии (ПК)
             const btnZip = document.getElementById('btnDownloadZip');
             if (btnZip) {
                 btnZip.href = zipDownloadURL;
                 btnZip.target = '_blank';
                 btnZip.rel = 'noopener noreferrer';
-                btnZip.download = 'FNARKN_Alpha0.1_Portable.zip';
+                btnZip.download = 'FNARKN_alpha_0.1.1_Portable.zip';
+            }
+            
+            // ================================================================
+            // НОВАЯ КНОПКА: Android
+            // ================================================================
+            const btnAndroid = document.getElementById('btnDownloadAndroid');
+            if (btnAndroid) {
+                btnAndroid.href = androidDownloadURL;
+                btnAndroid.target = '_blank';
+                btnAndroid.rel = 'noopener noreferrer';
+                btnAndroid.download = 'FNARKN_alpha_0.1.1_Android.apk';
             }
         });
         
@@ -1045,8 +1095,9 @@
         console.log(`%c[INFO] Telegram: ${telegramURL}`, 'color: #0088ff');
         console.log(`%c[INFO] YouTube: ${youtubeURL}`, 'color: #0088ff');
         console.log(`%c[INFO] Donate: ${donateURL}`, 'color: #ff8800');
-        console.log(`%c[INFO] Setup: ${setupDownloadURL}`, 'color: #ff8800');
-        console.log(`%c[INFO] Portable: ${zipDownloadURL}`, 'color: #ff8800');
+        console.log(`%c[INFO] Setup (PC): ${setupDownloadURL}`, 'color: #ff8800');
+        console.log(`%c[INFO] Portable (PC): ${zipDownloadURL}`, 'color: #ff8800');
+        console.log(`%c[INFO] Android: ${androidDownloadURL}`, 'color: #00ff66');
     </script>
     
 </body>
